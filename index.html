@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HYX_APEX | Alcanza tu punto máximo</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+
+    <header class="header-navbar">
+        <div class="navbar">
+            <h1 class="logo">HYX_APEX</h1>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link activo" data-filtro-sexo="todos">Inicio</a>
+                <a href="#" class="nav-link" data-filtro-sexo="Hombre">Hombres</a>
+                <a href="#" class="nav-link" data-filtro-sexo="Mujer">Mujeres</a>
+                <button id="btn-carrito" class="btn-nav-carrito">Carrito (<span id="cart-count">0</span>)</button>
+            </nav>
+            <button id="btn-abrir-auth" class="btn-login-trigger">Iniciar Sesión</button>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h2>HYX_APEX</h2>
+            <p>ALCANZA TU PUNTO MÁXIMO CON EL MEJOR ESTILO</p>
+            <button class="btn-explorar" id="btn-scroll-catalogo">EXPLORAR CATÁLOGO</button>
+        </div>
+    </section>
+
+    <section class="filtros-seccion">
+        <div class="buscador-contenedor">
+            <input type="text" id="buscador" placeholder="Buscar productos (ej. Alpha, Neon, Cyber...)...">
+        </div>
+        <div class="categorias-container">
+            <button class="btn-categoria activo" data-categoria="todos">Todos</button>
+            <button class="btn-categoria" data-categoria="sudaderas">Sudaderas</button>
+            <button class="btn-categoria" data-categoria="conjuntos">Conjuntos</button>
+            <button class="btn-categoria" data-categoria="playeras">Playeras</button>
+            <button class="btn-categoria" data-categoria="pantalones">Pantalones</button>
+            <button class="btn-categoria" data-categoria="tenis">Tenis</button>
+            <button class="btn-categoria" data-categoria="mochilas">Mochilas</button>
+            <button class="btn-categoria" data-categoria="accesorios">Accesorios</button>
+        </div>
+    </section>
+
+    <main class="catalogo-container">
+        <div id="contenedor-productos" class="productos-grid"></div>
+    </main>
+
+    <footer>
+        <p><strong>Hyx_Apex &copy; 2026</strong></p>
+        <p class="footer-sub">Alcanza tu punto máximo con el mejor estilo.</p>
+    </footer>
+
+    <div id="modal-auth" class="modal-overlay">
+        <div class="modal-content">
+            <button id="btn-cerrar-auth" class="btn-cerrar">&times;</button>
+            
+            <div id="vista-login" class="auth-vista">
+                <h3>Iniciar Sesión</h3>
+                <p class="modal-desc">Ingresa tus credenciales para acceder a tu cuenta VIP.</p>
+                <form id="form-login">
+                    <input type="email" placeholder="Correo Electrónico" required>
+                    <input type="password" placeholder="Contraseña" required>
+                    <button type="submit" class="btn-submit-auth">Entrar</button>
+                </form>
+                <div class="auth-opciones-cambio">
+                    <p>¿No tienes una cuenta? <span id="link-ir-registro" class="link-resaltado">Regístrate aquí</span></p>
+                    <p><span id="link-ir-recuperar" class="link-resaltado">¿Olvidaste tu contraseña?</span></p>
+                </div>
+            </div>
+
+            <div id="vista-registro" class="auth-vista" style="display: none;">
+                <h3>Crear Cuenta</h3>
+                <p class="modal-desc">Regístrate para guardar tus pedidos y obtener descuentos.</p>
+                <form id="form-registro">
+                    <input type="text" placeholder="Nombre Completo" required>
+                    <input type="email" placeholder="Correo Electrónico" required>
+                    <input type="password" placeholder="Contraseña Segura" required>
+                    <button type="submit" class="btn-submit-auth">Registrarse</button>
+                </form>
+                <div class="auth-opciones-cambio">
+                    <p>¿Ya tienes cuenta? <span id="link-ir-login" class="link-resaltado">Inicia Sesión</span></p>
+                </div>
+            </div>
+
+            <div id="vista-recuperar" class="auth-vista" style="display: none;">
+                <h3>Recuperar Contraseña</h3>
+                <p class="modal-desc">Ingresa tu correo para recibir un código de verificación real.</p>
+                <form id="form-recuperar-correo">
+                    <input type="email" id="correo-recuperar" placeholder="tu-correo@gmail.com" required>
+                    <button type="submit" id="btn-enviar-codigo" class="btn-submit-auth">Enviar Código por Correo</button>
+                </form>
+                <div id="seccion-nuevo-pass" style="display: none; flex-direction: column; margin-top: 15px; gap: 10px;">
+                    <input type="text" id="recuperar-codigo" placeholder="Introduce el código recibido">
+                    <input type="password" id="recuperar-nuevo-password" placeholder="Nueva Contraseña">
+                    <button id="btn-validar-codigo" class="btn-submit-auth" style="background: #00ffcc; color: #000;">Validar y Cambiar Contraseña</button>
+                </div>
+                <div class="auth-opciones-cambio">
+                    <span id="link-volver-login" class="link-resaltado">Volver al Inicio de Sesión</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-carrito" class="modal-overlay">
+        <div class="modal-content modal-carrito-ancho">
+            <button id="btn-cerrar-carrito" class="btn-cerrar">&times;</button>
+            <h3>Tu Carrito</h3>
+            <p class="modal-desc">Revisa tus prendas seleccionadas antes de proceder al pago.</p>
+            
+            <div id="contenedor-carrito-items" class="carrito-lista-scroll"></div>
+            
+            <div class="carrito-resumen">
+                <div class="total-linea">
+                    <span>Total Estimado:</span>
+                    <span id="carrito-total-precio">$0.00</span>
+                </div>
+                <button id="btn-finalizar-compra" class="btn-submit-auth" style="margin-top: 15px;">Generar Compra</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <script src="main.js"></script>
+</body>
+</html>
